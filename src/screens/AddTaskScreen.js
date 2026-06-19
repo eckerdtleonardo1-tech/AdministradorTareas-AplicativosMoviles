@@ -7,12 +7,28 @@ export default function CrearTarea({ navigation }) {
     const [lista, setLista] = useState([]);
 
     
-    const agregar = () => {
-        if (texto.trim()) {
-            setLista([...lista, texto]);
-            setTexto('');
-        }
-    };
+    const agregarTarea = () => {
+    if (tarea.trim()) {
+      setListaTareas([...listaTareas, { id: Date.now().toString(), texto: tarea, completada: false }]);
+      setTarea('');
+    }
+  };
+
+
+  // Eliminar Tarea
+  const eliminarTarea = (id) => {
+    setListaTareas(listaTareas.filter((item) => item.id !== id));
+  };
+
+
+  // Marcar como completada
+  const alternarCompletada = (id) => {
+    setListaTareas(
+      listaTareas.map((item) =>
+        item.id === id ? { ...item, completada: !item.completada } : item
+      )
+    );
+  };
 
     return (
         <View>
