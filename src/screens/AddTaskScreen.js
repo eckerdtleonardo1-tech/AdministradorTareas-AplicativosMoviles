@@ -1,10 +1,11 @@
-import { View, Text, Button } from 'react-native';
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { View, Text, TextInput, Button, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
 
 
-export default function CrearTarea({ navigation }) {
-    const [texto, setTexto] = useState('');
-    const [lista, setLista] = useState([]);
+
+export default function CrearTarea() {
+  const [tarea, setTarea] = useState('');
+  const [listaTareas, setListaTareas] = useState([]);
 
     
     const agregarTarea = () => {
@@ -15,13 +16,11 @@ export default function CrearTarea({ navigation }) {
   };
 
 
-  // Eliminar Tarea
   const eliminarTarea = (id) => {
     setListaTareas(listaTareas.filter((item) => item.id !== id));
   };
 
 
-  // Marcar como completada
   const alternarCompletada = (id) => {
     setListaTareas(
       listaTareas.map((item) =>
@@ -32,11 +31,30 @@ export default function CrearTarea({ navigation }) {
 
     return (
         <View>
-            <Text>Crear Tarea</Text>
+            <Text >Lista de Tareas ✅</Text>
+
+
+        <TextInput
+            placeholder="Escribe una tarea..."
+            value={tarea}
+            onChangeText={setTarea}
+      />
             <Button
-                title="Crear Tarea"
-                onPress={agregar} 
+                title="Guardar Tarea"
+                onPress={agregarTarea} 
             />
+            <FlatList
+                data={listaTareas}
+                keyExtractor={(item) => item.id}
+                renderItem={({ item }) => (
+            <TouchableOpacity
+                onPress={() => alternarCompletada(item.id)}
+                onLongPress={() => eliminarTarea(item.id)}
+            >
+                <Text>{item.texto}</Text>
+            </TouchableOpacity>
+        )}
+      />
         </View>
     );
 
