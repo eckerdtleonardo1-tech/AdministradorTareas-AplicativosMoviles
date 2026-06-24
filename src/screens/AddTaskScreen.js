@@ -6,14 +6,15 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 export default function CrearTarea() {
-  const [tarea, setTarea] = useState('');
+  const [titulo, setTitulo] = useState('');
+  const [descripcion, setDescripcion] = useState('');
   const [listaTareas, setListaTareas] = useState([]);
 
     
     const agregarTarea = () => {
-    if (tarea.trim()) {
-      setListaTareas([...listaTareas, { id: Date.now().toString(), texto: tarea, completada: false }]);
-      setTarea('');
+    if (titulo.trim()) {
+      setListaTareas([...listaTareas, { id: Date.now().toString(), titulo: titulo, descripcion: descripcion, completada: false }]);
+      setTitulo('');
       guardarEnAsyncStorage();
     }
   };
@@ -65,9 +66,14 @@ export default function CrearTarea() {
 
         <View style={styles.rowContainer}>
         <TextInput style={styles.input}
-            placeholder="Escribe una tarea..."
-            value={tarea}
-            onChangeText={setTarea}
+            placeholder="Escribe un titulo..."
+            value={titulo}
+            onChangeText={setTitulo}
+      />
+      <TextInput style={styles.input}
+            placeholder="Escribe una descripción..."
+            value={descripcion}
+            onChangeText={setDescripcion}
       />
             <TouchableOpacity  style={styles.boton}
                 onPress={agregarTarea} color="#688f5d" 
@@ -89,7 +95,7 @@ export default function CrearTarea() {
               style={[styles.tarea, item.completada && styles.tareaCompletada]}
               onPress={() => alternarCompletada(item.id)}
             >
-              <Text style={styles.textoTarea}>{item.texto}</Text>
+              <Text style={styles.textoTarea}>{item.titulo} {item.descripcion}</Text>
             </TouchableOpacity>
 
             <TouchableOpacity 
