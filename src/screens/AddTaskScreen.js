@@ -43,17 +43,8 @@ export default function CrearTarea() {
         if (tareasGuardadas) {
             setListaTareas(JSON.parse(tareasGuardadas));
         }
-    };
+    }
 
-    const recuperarTareasDesdeAsyncStorage = async () => {
-        const tareasRecuperadas = await AsyncStorage.getItem("listaTareas");
-        if (tareasRecuperadas === null) {
-            return [];
-        }
-        const tareasParseadas = JSON.parse(tareasRecuperadas);
-        setListaTareas(tareasParseadas);
-        return tareasRecuperadas;
-    };
     const limpiarAsyncStorage = async () => {
         await AsyncStorage.clear();
         setListaTareas([]);
