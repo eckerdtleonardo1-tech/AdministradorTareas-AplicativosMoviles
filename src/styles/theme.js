@@ -16,7 +16,7 @@ export  const styles = StyleSheet.create({
   },
     input: {
     borderWidth: 1,
-    borderColor: '#0056b3', // Tu borde azul
+    borderColor: '#0056b3', 
     borderRadius: 5,
     paddingHorizontal: 10,
     backgroundColor: '#fff',
@@ -48,6 +48,14 @@ export  const styles = StyleSheet.create({
   },
     botonEliminar: {
     backgroundColor: '#ff4d4d',
+    borderRadius: 5,
+    width: 50, 
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100%', 
+  },
+  botonEditar: {
+    backgroundColor: '#ffffff',
     borderRadius: 5,
     width: 50, 
     justifyContent: 'center',

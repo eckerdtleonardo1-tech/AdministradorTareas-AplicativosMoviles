@@ -9,16 +9,37 @@ export default function CrearTarea() {
   const [titulo, setTitulo] = useState('');
   const [descripcion, setDescripcion] = useState('');
   const [listaTareas, setListaTareas] = useState([]);
+  const [idEnEdicion, setIdEnEdicion] = useState(null);
 
-    
-    const agregarTarea = () => {
-    if (titulo.trim()) {
-      setListaTareas([...listaTareas, { id: Date.now().toString(), titulo: titulo, descripcion: descripcion, completada: false }]);
-      setTitulo('');
-      guardarEnAsyncStorage();
+ const agregarTarea = () => {
+  if (titulo.trim()) {
+    if (idEnEdicion !== null) {
+      const listaActualizada = listaTareas.map((tareaIterada) => {
+        if (tareaIterada.id === idEnEdicion) {
+          return { ...tareaIterada, titulo: titulo, descripcion: descripcion };
+        }
+        return tareaIterada;
+      });
+      
+      setListaTareas(listaActualizada);
+      setIdEnEdicion(null); 
+    } else {
+      setListaTareas([
+        ...listaTareas, 
+        { id: Date.now().toString(), titulo: titulo, descripcion: descripcion, completado: false }
+      ]);
     }
-  };
+    setTitulo('');
+    setDescripcion('');
+  }
+};
 
+ const activarEdicion = (tareaSeleccionada) => {
+  console.log("¡Botón presionado! Datos de la tarea:", tareaSeleccionada);
+  setTitulo(tareaSeleccionada.titulo);
+  setDescripcion(tareaSeleccionada.descripcion);
+  setIdEnEdicion(tareaSeleccionada.id);
+};
 
   const eliminarTarea = (id) => {
     setListaTareas(listaTareas.filter((item) => item.id !== id));
@@ -97,6 +118,10 @@ export default function CrearTarea() {
             >
               <Text style={styles.textoTarea}>{item.titulo} {item.descripcion}</Text>
             </TouchableOpacity>
+
+           <TouchableOpacity onPress={() => activarEdicion(item)} style={styles.botonEditar}>
+            <Text style={styles.textoTacho}>✏️</Text> 
+           </TouchableOpacity>
 
             <TouchableOpacity 
               onPress={() => eliminarTarea(item.id)} 
